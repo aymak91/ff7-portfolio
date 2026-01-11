@@ -1,78 +1,110 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { useEffect, useState } from "react";
+import FF7Panel from "@/components/FF7Panel";
+import CharacterPanel from "@/components/CharacterPanel";
+import MenuPanel from "@/components/MenuPanel";
+import LocationPanel from "@/components/LocationPanel";
+import TimeGilPanel from "@/components/TimeGilPanel";
+import LifestreamBackground from "@/components/LifestreamBackground";
+import AboutMePanel from "@/components/AboutMePanel";
+import SlideIn from "@/components/SlideIn";
+import type { MenuMode } from "@/components/MenuPanel";
+import SkillsMateriaPanel from "@/components/SkillsMateriaPanel";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const DESIGN_WIDTH = 720;
+const DESIGN_HEIGHT = 420;
 
 export default function Home() {
+  const [scale, setScale] = useState(1);
+  const [mode, setMode] = useState<MenuMode>("home");
+
+  useEffect(() => {
+    const updateScale = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      setScale(Math.min(vw / DESIGN_WIDTH, vh / DESIGN_HEIGHT));
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="min-h-screen bg-black flex items-center justify-center overflow-hidden font-[var(--font-ff7)]">
+      <LifestreamBackground />
+
+      <div
+        className="relative"
+        style={{
+          width: DESIGN_WIDTH,
+          height: DESIGN_HEIGHT,
+          transform: `scale(${scale})`,
+          transformOrigin: "center",
+        }}
+      >
+        {/* ===== HOME SCREEN ===== */}
+        {mode === "home" && (
+          <>
+            {/* Character Panel */}
+            <SlideIn from="right">
+              <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
+                <FF7Panel>
+                  <CharacterPanel />
+                </FF7Panel>
+              </div>
+            </SlideIn>
+
+            {/* About Me */}
+            <SlideIn from="right">
+              <div className="absolute left-20 top-60 z-11 w-[450px] h-[130px]">
+                <FF7Panel>
+                  <AboutMePanel />
+                </FF7Panel>
+              </div>
+            </SlideIn>
+
+            {/* Time + Gil */}
+            <SlideIn from="left">
+              <div className="absolute left-137 top-[265px] z-20 w-[150px]">
+                <FF7Panel>
+                  <TimeGilPanel />
+                </FF7Panel>
+              </div>
+            </SlideIn>
+
+            {/* Location */}
+            <SlideIn from="bottom">
+              <div className="absolute left-130 top-[340px] z-15 w-[180px]">
+                <FF7Panel>
+                  <LocationPanel />
+                </FF7Panel>
+              </div>
+            </SlideIn>
+          </>
+        )}
+
+        {/* ===== SKILLS SCREEN (Materia Menu later) ===== */}
+        {mode === "skills" && (
+          <SlideIn from="right">
+            <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
+              <FF7Panel>
+                <div className="absolute z-10 w-[600px] h-[340px]">
+                  <SkillsMateriaPanel />
+                </div>
+              </FF7Panel>
+            </div>
+          </SlideIn>
+        )}
+
+        {/* ===== MENU (always visible) ===== */}
+        <SlideIn from="bottom">
+          <div className="absolute left-137 top-5 z-30 w-[150px]">
+            <FF7Panel>
+              <MenuPanel onSelect={setMode} activeMode={mode} />
+            </FF7Panel>
+          </div>
+        </SlideIn>
+      </div>
+    </main>
   );
 }
