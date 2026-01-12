@@ -18,10 +18,14 @@ export default function Home() {
   const [mode, setMode] = useState<MenuMode>("home");
 
   useEffect(() => {
+    const MIN_SCALE = 0.5; // don't shrink below 50%
+    const MAX_SCALE = 2.5; // don't grow above 150%
+
     const updateScale = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      setScale(Math.min(vw / DESIGN_WIDTH, vh / DESIGN_HEIGHT));
+      const newScale = Math.min(vw / DESIGN_WIDTH, vh / DESIGN_HEIGHT);
+      setScale(Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale))); // clamp
     };
 
     updateScale();
