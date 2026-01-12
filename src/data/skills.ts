@@ -44,7 +44,7 @@ const skillList: Skill[] = [
   },
   {
     title: "Next.js",
-    materia: "yellow",
+    materia: "blue",
     stars: 3,
     description: "React framework for server-rendered and optimized web apps."
   },
@@ -68,7 +68,7 @@ const skillList: Skill[] = [
   },
   {
     title: "Tailwind CSS",
-    materia: "yellow",
+    materia: "blue",
     stars: 5,
     description: "Utility-first CSS framework.",
   },
