@@ -10,6 +10,7 @@ import SlideIn from "@/components/SlideIn";
 import type { MenuMode } from "@/components/MenuPanel";
 import SkillsMateriaPanel from "@/components/SkillsMateriaPanel";
 import WorkHistoryPanel from "@/components/WorkHistoryPanel";
+import Head from "next/head";
 
 const DESIGN_WIDTH = 720;
 const DESIGN_HEIGHT = 420;
@@ -37,6 +38,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black flex items-center justify-center overflow-hidden font-[var(--font-ff7)]">
+      <Head>
+        <title>Alexander Mak - Portfolio</title>
+        <meta name="description" content="Portfolio site inspired by FF7" />
+      </Head>
       <LifestreamBackground />
 
       <div
