@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react";
 
-export function useHoverSound(src: string) {
+type Options = {
+  muted?: boolean;
+};
+
+export function useHoverSound(src: string, options?: Options) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -9,6 +13,7 @@ export function useHoverSound(src: string) {
   }, [src]);
 
   const play = () => {
+    if (options?.muted) return; // skip playing if muted
     if (!audioRef.current) return;
 
     audioRef.current.currentTime = 0;
