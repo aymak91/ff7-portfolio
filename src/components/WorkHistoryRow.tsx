@@ -37,8 +37,8 @@ export default function WorkHistoryRow({
           </div>
 
           <div className="border border-ff7-border px-2 text-xs w-50 h-15 flex flex-col justify-center">
-            <p>Role {role}</p>
-            <p>Years {years}</p>
+            <p>{role}</p>
+            <p>{years}</p>
           </div>
         </div>
 
