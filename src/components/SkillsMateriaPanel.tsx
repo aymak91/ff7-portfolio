@@ -245,7 +245,7 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
       </FF7Panel>
 
       {/* Bottom Panel: Selected Skill & Skill List */}
-      <div className="flex h-[200px] gap-2">
+      <div className="flex h-[160px] gap-2">
         <FF7Panel className="w-[180px] p-2 flex flex-col items-center justify-center">
           <div className="text-sm font-bold text-yellow-200">
             {selectedSkill?.title || "Select a Skill"}

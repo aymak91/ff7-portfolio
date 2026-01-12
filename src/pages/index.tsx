@@ -165,7 +165,10 @@ export default function Home() {
                     <p className="text-lg font-bold">Welcome!</p>
                     <p>Thanks for visiting my page!</p>
                     <p>
-                      This site is inspired by the menus from Final Fantasy VII.
+                      I built this site with a layout inspired by the menus from
+                      the classic game Final Fantasy VII so that you can get to
+                      know me in a more interactive and fun way. I hope you
+                      enjoy it!
                     </p>
                     <p>- Alex</p>
 
