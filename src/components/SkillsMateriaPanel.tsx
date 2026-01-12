@@ -150,22 +150,33 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
                   const updated = { ...prev };
                   const currentSkill = slot.skill;
 
-                  if (!selectedSkill) {
-                    if (!currentSkill) return prev;
+                  // No selected skill AND empty slot → play error
+                  if (!selectedSkill && !currentSkill) {
+                    const errorAudio = new Audio("/audio/error.mp3");
+                    errorAudio.muted = muted;
+                    errorAudio.volume = 0.2;
+                    errorAudio.play();
+                    return prev;
+                  }
+
+                  // No selected skill but clicking a filled slot → select it
+                  if (!selectedSkill && currentSkill) {
                     setSelectedSkill(currentSkill);
                     return prev;
                   }
 
-                  if (currentSkill?.title === selectedSkill.title) {
+                  // If slot already has the selected skill → remove it
+                  if (currentSkill?.title === selectedSkill?.title) {
                     updated[row][i] = { ...updated[row][i], skill: undefined };
                     materiaAudio.play();
                     setSelectedSkill(null);
                     return updated;
                   }
 
+                  // Otherwise, place selected skill into slot
                   (["weapon", "armor"] as const).forEach((r) => {
                     updated[r] = updated[r].map((s) =>
-                      s.skill?.title === selectedSkill.title
+                      s.skill?.title === selectedSkill?.title
                         ? { ...s, skill: undefined }
                         : s
                     );
@@ -173,7 +184,7 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
 
                   updated[row][i] = {
                     ...updated[row][i],
-                    skill: selectedSkill,
+                    skill: selectedSkill!,
                   };
                   materiaAudio.play();
                   setSelectedSkill(null);
