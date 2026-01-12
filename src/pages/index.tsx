@@ -141,7 +141,7 @@ export default function Home() {
           >
             {/* ───── Global Mute Button ───── */}
             <button
-              className="absolute top-2 left-2 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded"
+              className="cursor-pointer absolute top-2 left-2 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded"
               onClick={() => setMuted((p) => !p)}
             >
               {muted ? "🔇" : "🔊"}
@@ -150,10 +150,19 @@ export default function Home() {
             {/* ───── Back Button ───── */}
             {mode !== "home" && mode !== "welcome" && (
               <button
-                className="absolute top-2 left-10 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded"
+                className="cursor-pointer absolute top-2 left-10 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded"
                 onClick={handleBack}
               >
-                ←
+                <svg
+                  className="w-3 h-3"
+                  fill="#ffffff"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  transform="matrix(-1,0,0,1,0,0)"
+                  stroke="#ffffff"
+                >
+                  <path d="M22.706,15.708l-5,5a1,1,0,0,1-1.414-1.414L19.586,16H2a1,1,0,0,1-1-1V4A1,1,0,0,1,2,3H12a1,1,0,0,1,0,2H3v9H19.586l-3.293-3.293a1,1,0,0,1,1.414-1.414l5,5A1,1,0,0,1,22.706,15.708Z" />
+                </svg>
               </button>
             )}
 
