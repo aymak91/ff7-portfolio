@@ -94,7 +94,7 @@ export default function Home() {
             </button>
 
             {/* ───── Back Button ───── */}
-            {mode !== "home" && (
+            {mode !== "home" && mode !== "welcome" && (
               <button
                 className="cursor-pointer absolute top-2 left-10 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded hover:bg-gray-800"
                 onClick={handleBack}
