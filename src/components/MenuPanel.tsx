@@ -3,7 +3,12 @@ import Image from "next/image";
 import { useHoverSound } from "@/hooks/useHoverSound";
 import FF7Panel from "./FF7Panel";
 
-export type MenuMode = "home" | "skills" | "experience" | "projects";
+export type MenuMode =
+  | "home"
+  | "skills"
+  | "experience"
+  | "projects"
+  | "welcome";
 
 type Props = {
   onSelect: (mode: MenuMode) => void;
@@ -18,7 +23,10 @@ const menuItems: (
   { title: "Skills", mode: "skills" },
   { title: "Work History", mode: "experience" },
   { title: "Projects", mode: "projects" },
-  { title: "Resume", link: "https://drive.google.com/file/d/1w2AxMidFUh9nubAIbFE0Q_OICyo6yX4U/view?usp=sharing"},
+  {
+    title: "Resume",
+    link: "https://drive.google.com/file/d/1w2AxMidFUh9nubAIbFE0Q_OICyo6yX4U/view?usp=sharing",
+  },
   { title: "LinkedIn", link: "https://www.linkedin.com/in/alexanderyumak/" },
   { title: "GitHub", link: "https://github.com/aymak91" },
   { title: "Contact", link: "mailto:alexanderyumak@gmail.com" },
@@ -56,7 +64,8 @@ export default function MenuPanel({ onSelect, activeMode, muted }: Props) {
                 <li
                   key={`${item.title}-${index}`}
                   onMouseEnter={() => {
-                    if (!muted && hoveredIndex !== index) { // Only play if not muted
+                    if (!muted && hoveredIndex !== index) {
+                      // Only play if not muted
                       setHoveredIndex(index);
                       playHover();
                     }
@@ -89,6 +98,14 @@ export default function MenuPanel({ onSelect, activeMode, muted }: Props) {
           <div className="relative">
             <div className="relative flex items-center text-xs h-[20px]">
               <span className="font-bold">{visibleItems[0].title}</span>
+            </div>
+          </div>
+        )}
+
+        {isCollapsed && activeMode === "welcome" && (
+          <div className="relative">
+            <div className="relative flex items-center text-xs h-[20px]">
+              <span className="font-bold">Welcome!</span>
             </div>
           </div>
         )}

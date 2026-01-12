@@ -11,14 +11,24 @@ import type { MenuMode } from "@/components/MenuPanel";
 import SkillsMateriaPanel from "@/components/SkillsMateriaPanel";
 import WorkHistoryPanel from "@/components/WorkHistoryPanel";
 import Head from "next/head";
+import { useHoverSound } from "@/hooks/useHoverSound";
+import { useClickSound } from "@/hooks/useClickSound";
 
 const DESIGN_WIDTH = 720;
 const DESIGN_HEIGHT = 420;
 
 export default function Home() {
   const [scale, setScale] = useState(1);
-  const [mode, setMode] = useState<MenuMode>("home");
+  const [mode, setMode] = useState<MenuMode>("welcome");
   const [muted, setMuted] = useState(false); // Global mute state
+
+  const playHover = useHoverSound("/audio/menu_blip.mp3", { muted });
+  const playHeal = useClickSound("/audio/heal.mp3", { muted });
+
+  const handleStart = () => {
+    playHeal();
+    setMode("home");
+  };
 
   useEffect(() => {
     const MIN_SCALE = 0.5;
@@ -56,22 +66,72 @@ export default function Home() {
         {/* ───── Global Mute Button ───── */}
         <button
           className="cursor-pointer absolute top-2 left-2 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded hover:bg-gray-800"
-          onClick={() => setMuted(prev => !prev)}
+          onClick={() => setMuted((prev) => !prev)}
           title={muted ? "Unmute" : "Mute"}
         >
           {muted ? "🔇" : "🔊"}
         </button>
 
         {/* ───── Back Button ───── */}
-        {mode !== "home" &&
-        <button
-          className="cursor-pointer absolute top-2 left-10 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded hover:bg-gray-800"
-          onClick={() => setMode("home")}
-        >
-          <svg fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" transform="matrix(-1, 0, 0, 1, 0, 0)" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M22.706,15.708l-5,5a1,1,0,0,1-1.414-1.414L19.586,16H2a1,1,0,0,1-1-1V4A1,1,0,0,1,2,3H12a1,1,0,0,1,0,2H3v9H19.586l-3.293-3.293a1,1,0,0,1,1.414-1.414l5,5A1,1,0,0,1,22.706,15.708Z"></path></g></svg>
-        </button>
-        }
-        
+        {mode !== "home" && (
+          <button
+            className="cursor-pointer absolute top-2 left-10 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded hover:bg-gray-800"
+            onClick={() => setMode("home")}
+          >
+            <svg
+              fill="#ffffff"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              transform="matrix(-1, 0, 0, 1, 0, 0)"
+              stroke="#ffffff"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path d="M22.706,15.708l-5,5a1,1,0,0,1-1.414-1.414L19.586,16H2a1,1,0,0,1-1-1V4A1,1,0,0,1,2,3H12a1,1,0,0,1,0,2H3v9H19.586l-3.293-3.293a1,1,0,0,1,1.414-1.414l5,5A1,1,0,0,1,22.706,15.708Z"></path>
+              </g>
+            </svg>
+          </button>
+        )}
+
+        {/* ===== WELCOME SCREEN ===== */}
+        {mode === "welcome" && (
+          <SlideIn from="bottom">
+            <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
+              <FF7Panel className="flex flex-col items-center justify-center gap-4 p-6 text-center relative">
+                <p className="text-lg font-bold">Welcome!</p>
+                <p>Thanks for visiting my page!</p>
+                <p>
+                  I built this site so that you can get to know me in an
+                  interactive and fun way!
+                </p>
+                <p>
+                  This layout is inspired by the menus from the classic game
+                  Final Fantasy VII. I hope you have fun getting to know me this
+                  way!
+                </p>
+                <p>-Alex</p>
+
+                <button
+                  className="cursor-pointer px-6 py-2 text-sm font-bold text-white 
+                     bg-gradient-to-b from-ff7-panel to-ff7-blue 
+                     border border-ff7-border rounded-lg 
+                     hover:from-ff7-blue hover:to-ff7-panel 
+                     transition-all duration-200 shadow-md"
+                  onMouseEnter={playHover}
+                  onClick={handleStart}
+                >
+                  START
+                </button>
+              </FF7Panel>
+            </div>
+          </SlideIn>
+        )}
+
         {/* ===== HOME SCREEN ===== */}
         {mode === "home" && (
           <>
@@ -131,9 +191,7 @@ export default function Home() {
         {mode === "projects" && (
           <SlideIn from="bottom">
             <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
-              <FF7Panel>
-                This page is a work in progress
-              </FF7Panel>
+              <FF7Panel>This page is a work in progress</FF7Panel>
             </div>
           </SlideIn>
         )}
@@ -142,7 +200,7 @@ export default function Home() {
         <SlideIn from="bottom">
           <div className="absolute left-137 top-5 z-30 w-[150px]">
             <FF7Panel>
-              <MenuPanel onSelect={setMode} activeMode={mode} muted={muted}/>
+              <MenuPanel onSelect={setMode} activeMode={mode} muted={muted} />
             </FF7Panel>
           </div>
         </SlideIn>
