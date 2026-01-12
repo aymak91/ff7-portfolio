@@ -18,6 +18,7 @@ const menuItems: (
   { title: "Skills", mode: "skills" },
   { title: "Work History", mode: "experience" },
   { title: "Projects", mode: "projects" },
+  { title: "Resume", link: "https://drive.google.com/file/d/1w2AxMidFUh9nubAIbFE0Q_OICyo6yX4U/view?usp=sharing"},
   { title: "LinkedIn", link: "https://www.linkedin.com/in/alexanderyumak/" },
   { title: "GitHub", link: "https://github.com/aymak91" },
   { title: "Contact", link: "mailto:alexanderyumak@gmail.com" },
