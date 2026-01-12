@@ -4,7 +4,7 @@ import { useHoverSound } from "@/hooks/useHoverSound";
 import FF7Panel from "@/components/FF7Panel";
 import MateriaSocket from "./MateriaSocket";
 import StarRating from "./StarRating";
-import skillList, { type Skill } from "../data/skills";
+import skillList, { goodPairs, type Skill } from "../data/skills";
 
 // ───── Types ─────
 type MateriaSlot = {
@@ -28,15 +28,6 @@ const myCharacter: Character = {
   mp: "63 / 63",
   avatar: "/cloud.jpg",
 };
-
-const goodPairs: [string, string][] = [
-  ["Ruby", "Rails"],
-  ["React", "Redux"],
-  ["Node.js", "Javascript"],
-  ["Node.js", "Typescript"],
-  ["Next.js", "React"],
-  ["CSS", "Tailwind CSS"],
-];
 
 function getPairedSlot(slots: MateriaSlot[], index: number) {
   return index % 2 === 0 ? slots[index + 1] : slots[index - 1];

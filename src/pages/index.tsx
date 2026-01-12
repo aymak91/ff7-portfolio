@@ -1,7 +1,6 @@
 // pages/index.tsx
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 
 import FF7Panel from "@/components/FF7Panel";
 import CharacterPanel from "@/components/CharacterPanel";
@@ -28,6 +27,25 @@ export default function Home() {
   const [scale, setScale] = useState(1);
   const [mode, setMode] = useState<MenuMode>("welcome");
   const [muted, setMuted] = useState(false);
+  const [showRotatePrompt, setShowRotatePrompt] = useState(false);
+
+  // ───── Orientation Check ─────
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isMobile = window.innerWidth < 900;
+      setShowRotatePrompt(isMobile && isPortrait);
+    };
+
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
+
+  // Prevent scrolling when blocked
+  useEffect(() => {
+    document.body.style.overflow = showRotatePrompt ? "hidden" : "";
+  }, [showRotatePrompt]);
 
   // ───── Sounds ─────
   const playHover = useHoverSound("/audio/menu_blip.mp3", { muted });
@@ -62,7 +80,45 @@ export default function Home() {
     return () => window.removeEventListener("resize", updateScale);
   }, []);
 
-  // ───── JSX ─────
+  // ───── Portrait Block Screen ─────
+  if (showRotatePrompt) {
+    return (
+      <>
+        <Head>
+          <title>Alexander Mak - Portfolio</title>
+          <meta name="description" content="Portfolio site inspired by FF7" />
+        </Head>
+
+        <main className="flex flex-col min-h-screen bg-black font-[var(--font-ff7)]">
+          <div className="flex-1 flex items-center justify-center overflow-hidden relative">
+            <LifestreamBackground />
+            <FF7Panel className="w-[90%] max-w-sm h-[220px] p-6 text-center flex flex-col justify-center">
+              <p className="text-lg font-bold mb-2">Rotate Your Device ↻</p>
+              <p className="text-sm opacity-80">
+                I see you're on a mobile device!
+              </p>
+              <p className="text-sm opacity-80">
+                This experience is best viewed in landscape mode.
+              </p>
+
+              <div className="mt-4 text-4xl animate-[rotate-phone_1.6s_ease-in-out_infinite]">
+                📱
+              </div>
+
+              <p className="mt-4 text-xs opacity-60">
+                Just like a classic console game
+              </p>
+            </FF7Panel>
+          </div>
+        </main>
+        <div className="fixed bottom-0 left-0 right-0 z-10">
+          <Footer />
+        </div>
+      </>
+    );
+  }
+
+  // ───── Normal App Render (Landscape Only) ─────
   return (
     <>
       <Head>
@@ -71,7 +127,6 @@ export default function Home() {
       </Head>
 
       <main className="flex flex-col min-h-screen bg-black font-[var(--font-ff7)]">
-        {/* ───── Main Content (Scaled FF7 Panels) ───── */}
         <div className="flex-1 flex items-center justify-center overflow-hidden relative">
           <LifestreamBackground />
 
@@ -86,9 +141,8 @@ export default function Home() {
           >
             {/* ───── Global Mute Button ───── */}
             <button
-              className="cursor-pointer absolute top-2 left-2 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded hover:bg-gray-800"
-              onClick={() => setMuted((prev) => !prev)}
-              title={muted ? "Unmute" : "Mute"}
+              className="absolute top-2 left-2 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded"
+              onClick={() => setMuted((p) => !p)}
             >
               {muted ? "🔇" : "🔊"}
             </button>
@@ -96,45 +150,27 @@ export default function Home() {
             {/* ───── Back Button ───── */}
             {mode !== "home" && mode !== "welcome" && (
               <button
-                className="cursor-pointer absolute top-2 left-10 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded hover:bg-gray-800"
+                className="absolute top-2 left-10 z-50 w-6 h-6 text-xs text-white flex items-center justify-center bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded"
                 onClick={handleBack}
               >
-                <svg
-                  fill="#ffffff"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  transform="matrix(-1,0,0,1,0,0)"
-                  stroke="#ffffff"
-                >
-                  <path d="M22.706,15.708l-5,5a1,1,0,0,1-1.414-1.414L19.586,16H2a1,1,0,0,1-1-1V4A1,1,0,0,1,2,3H12a1,1,0,0,1,0,2H3v9H19.586l-3.293-3.293a1,1,0,0,1,1.414-1.414l5,5A1,1,0,0,1,22.706,15.708Z" />
-                </svg>
+                ←
               </button>
             )}
 
-            {/* ───── Welcome Screen ───── */}
+            {/* ───── Welcome ───── */}
             {mode === "welcome" && (
               <SlideIn from="bottom">
-                <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
-                  <FF7Panel className="flex flex-col items-center justify-center gap-4 p-6 text-center relative">
+                <div className="absolute left-10 top-10 w-[600px] h-[340px]">
+                  <FF7Panel className="flex flex-col items-center justify-center gap-4 p-6 text-center">
                     <p className="text-lg font-bold">Welcome!</p>
                     <p>Thanks for visiting my page!</p>
                     <p>
-                      I built this site so that you can get to know me in an
-                      interactive and fun way!
+                      This site is inspired by the menus from Final Fantasy VII.
                     </p>
-                    <p>
-                      This layout is inspired by the menus from the classic game
-                      Final Fantasy VII.
-                    </p>
-                    <p>I hope you have fun getting to know me this way!</p>
-                    <p>-Alex</p>
+                    <p>- Alex</p>
 
                     <button
-                      className="cursor-pointer px-6 py-2 text-sm font-bold text-white 
-                         bg-gradient-to-b from-ff7-panel to-ff7-blue 
-                         border border-ff7-border rounded-lg 
-                         hover:from-ff7-blue hover:to-ff7-panel 
-                         transition-all duration-200 shadow-md"
+                      className="px-6 py-2 text-sm font-bold bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded-lg"
                       onMouseEnter={playHover}
                       onClick={handleStart}
                     >
@@ -145,11 +181,11 @@ export default function Home() {
               </SlideIn>
             )}
 
-            {/* ───── Home Panels ───── */}
+            {/* ───── Home ───── */}
             {mode === "home" && (
               <>
                 <SlideIn from="right">
-                  <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
+                  <div className="absolute left-10 top-10 w-[600px] h-[340px]">
                     <FF7Panel>
                       <CharacterPanel />
                     </FF7Panel>
@@ -157,7 +193,7 @@ export default function Home() {
                 </SlideIn>
 
                 <SlideIn from="right">
-                  <div className="absolute left-20 top-60 z-11 w-[450px] h-[130px]">
+                  <div className="absolute left-20 top-60 w-[450px] h-[130px]">
                     <FF7Panel>
                       <AboutMePanel />
                     </FF7Panel>
@@ -165,7 +201,7 @@ export default function Home() {
                 </SlideIn>
 
                 <SlideIn from="left">
-                  <div className="absolute left-137 top-[265px] z-20 w-[150px]">
+                  <div className="absolute left-137 top-[265px] w-[150px]">
                     <FF7Panel>
                       <TimeGilPanel />
                     </FF7Panel>
@@ -173,7 +209,7 @@ export default function Home() {
                 </SlideIn>
 
                 <SlideIn from="bottom">
-                  <div className="absolute left-130 top-[340px] z-15 w-[180px]">
+                  <div className="absolute left-130 top-[340px] w-[180px]">
                     <FF7Panel>
                       <LocationPanel />
                     </FF7Panel>
@@ -182,36 +218,34 @@ export default function Home() {
               </>
             )}
 
-            {/* ───── Skills (Materia) ───── */}
+            {/* ───── Skills / Experience / Projects ───── */}
             {mode === "skills" && (
               <SlideIn from="bottom">
-                <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
+                <div className="absolute left-10 top-10 w-[600px] h-[340px]">
                   <SkillsMateriaPanel muted={muted} />
                 </div>
               </SlideIn>
             )}
 
-            {/* ───── Experience ───── */}
             {mode === "experience" && (
               <SlideIn from="bottom">
-                <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
+                <div className="absolute left-10 top-10 w-[600px] h-[340px]">
                   <WorkHistoryPanel />
                 </div>
               </SlideIn>
             )}
 
-            {/* ───── Projects ───── */}
             {mode === "projects" && (
               <SlideIn from="bottom">
-                <div className="absolute left-10 top-10 z-10 w-[600px] h-[340px]">
+                <div className="absolute left-10 top-10 w-[600px] h-[340px]">
                   <FF7Panel>This page is a work in progress</FF7Panel>
                 </div>
               </SlideIn>
             )}
 
-            {/* ───── Menu Panel ───── */}
+            {/* ───── Menu ───── */}
             <SlideIn from="bottom">
-              <div className="absolute left-137 top-5 z-30 w-[150px]">
+              <div className="absolute left-137 top-5 w-[150px]">
                 <FF7Panel>
                   <MenuPanel
                     onSelect={setMode}
@@ -224,7 +258,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ───── Footer ───── */}
         <Footer />
       </main>
     </>

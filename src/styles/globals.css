@@ -8,7 +8,7 @@
   --color-ff7-accent: #6fb7ff;
 
   --font-ff7: Verdana, Arial, sans-serif;
-  
+
   --text-ff7: 12px;
 
   --shadow-ff7: inset 0 0 0 2px #cfcfcf;
@@ -37,7 +37,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #35302C;
+  background: #35302c;
   /* Dark FF7 panel background */
   border-radius: 6px;
 }
@@ -46,7 +46,7 @@
   background: #1353bd;
   /* Bright FF7 blue */
   border-radius: 6px;
-  border: 3px solid #35302C;
+  border: 3px solid #35302c;
   /* Padding to create border effect */
 }
 
@@ -56,12 +56,11 @@
 }
 
 ::-webkit-scrollbar-corner {
-  background: #35302C;
+  background: #35302c;
   /* Corner where vertical and horizontal meet */
 }
 
 @keyframes blink {
-
   0%,
   50%,
   100% {
@@ -76,4 +75,23 @@
 
 .flash-cursor {
   animation: blink 1s step-start infinite;
+}
+
+@keyframes rotate-phone {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  30% {
+    transform: rotate(90deg);
+  }
+
+  /* pause at landscape */
+  70% {
+    transform: rotate(90deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }

@@ -5,6 +5,15 @@ export type Skill = {
   description: string;
 };
 
+export const goodPairs: [string, string][] = [
+  ["Ruby", "Rails"],
+  ["React", "Redux"],
+  ["Node.js", "Javascript"],
+  ["Node.js", "Typescript"],
+  ["Next.js", "React"],
+  ["CSS", "Tailwind CSS"],
+];
+
 const skillList: Skill[] = [
   {
     title: "Javascript",
