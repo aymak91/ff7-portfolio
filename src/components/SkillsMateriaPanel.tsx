@@ -37,28 +37,144 @@ const myCharacter: Character = {
 
 // ───── Skill & Materia Data ─────
 const skillList: Skill[] = [
-  { title: "Javascript", materia: "green", stars: 5, description: "Popular language for web development." },
-  { title: "Typescript", materia: "green", stars: 4, description: "Typed superset of JavaScript." },
-  { title: "Python", materia: "green", stars: 4, description: "Versatile language for scripting and data." },
-  { title: "Ruby", materia: "green", stars: 3, description: "Dynamic language focused on simplicity." },
-  { title: "C++", materia: "green", stars: 2, description: "High-performance systems programming language." },
-  { title: "React", materia: "yellow", stars: 5, description: "Library for building UI components." },
-  { title: "Redux", materia: "blue", stars: 3, description: "State management library for JS apps." },
-  { title: "HTML5", materia: "yellow", stars: 5, description: "Markup language for web pages." },
-  { title: "CSS", materia: "yellow", stars: 5, description: "Styles web pages with layout and design." },
-  { title: "Tailwind CSS", materia: "yellow", stars: 5, description: "Utility-first CSS framework." },
-  { title: "Node.js", materia: "blue", stars: 4, description: "JavaScript runtime for server-side apps." },
-  { title: "Rails", materia: "blue", stars: 3, description: "Web framework written in Ruby." },
-  { title: "PostgreSQL", materia: "red", stars: 3, description: "Powerful open-source relational database." },
-  { title: "MongoDB", materia: "red", stars: 3, description: "NoSQL database for JSON-like documents." },
-  { title: "Firebase", materia: "red", stars: 5, description: "Platform for app development and hosting." },
-  { title: "AWS", materia: "red", stars: 3, description: "Cloud services platform by Amazon." },
-  { title: "Postman", materia: "red", stars: 5, description: "API development and testing tool." },
-  { title: "Git", materia: "purple", stars: 5, description: "Version control system for code." },
-  { title: "Jira", materia: "purple", stars: 5, description: "Project management and issue tracking." },
-  { title: "Linux", materia: "purple", stars: 4, description: "Open-source operating system." },
-  { title: "Ubuntu", materia: "purple", stars: 5, description: "User-friendly Linux distribution." },
+  {
+    title: "Javascript",
+    materia: "green",
+    stars: 5,
+    description: "Popular language for web development.",
+  },
+  {
+    title: "Typescript",
+    materia: "green",
+    stars: 4,
+    description: "Typed superset of JavaScript.",
+  },
+  {
+    title: "Python",
+    materia: "green",
+    stars: 4,
+    description: "Versatile language for scripting and data.",
+  },
+  {
+    title: "Ruby",
+    materia: "green",
+    stars: 3,
+    description: "Dynamic language focused on simplicity.",
+  },
+  {
+    title: "C++",
+    materia: "green",
+    stars: 2,
+    description: "High-performance systems programming language.",
+  },
+  {
+    title: "React",
+    materia: "yellow",
+    stars: 5,
+    description: "Library for building UI components.",
+  },
+  {
+    title: "Redux",
+    materia: "blue",
+    stars: 3,
+    description: "State management library for JS apps.",
+  },
+  {
+    title: "HTML5",
+    materia: "yellow",
+    stars: 5,
+    description: "Markup language for web pages.",
+  },
+  {
+    title: "CSS",
+    materia: "yellow",
+    stars: 5,
+    description: "Styles web pages with layout and design.",
+  },
+  {
+    title: "Tailwind CSS",
+    materia: "yellow",
+    stars: 5,
+    description: "Utility-first CSS framework.",
+  },
+  {
+    title: "Node.js",
+    materia: "blue",
+    stars: 4,
+    description: "JavaScript runtime for server-side apps.",
+  },
+  {
+    title: "Rails",
+    materia: "blue",
+    stars: 3,
+    description: "Web framework written in Ruby.",
+  },
+  {
+    title: "PostgreSQL",
+    materia: "red",
+    stars: 3,
+    description: "Powerful open-source relational database.",
+  },
+  {
+    title: "MongoDB",
+    materia: "red",
+    stars: 3,
+    description: "NoSQL database for JSON-like documents.",
+  },
+  {
+    title: "Firebase",
+    materia: "red",
+    stars: 5,
+    description: "Platform for app development and hosting.",
+  },
+  {
+    title: "AWS",
+    materia: "red",
+    stars: 3,
+    description: "Cloud services platform by Amazon.",
+  },
+  {
+    title: "Postman",
+    materia: "red",
+    stars: 5,
+    description: "API development and testing tool.",
+  },
+  {
+    title: "Git",
+    materia: "purple",
+    stars: 5,
+    description: "Version control system for code.",
+  },
+  {
+    title: "Jira",
+    materia: "purple",
+    stars: 5,
+    description: "Project management and issue tracking.",
+  },
+  {
+    title: "Linux",
+    materia: "purple",
+    stars: 4,
+    description: "Open-source operating system.",
+  },
+  {
+    title: "Ubuntu",
+    materia: "purple",
+    stars: 5,
+    description: "User-friendly Linux distribution.",
+  },
 ];
+
+const goodPairs: [string, string][] = [
+  ["Ruby", "Rails"],
+  ["React", "Redux"],
+  ["Node.js", "Javascript"],
+  ["Node.js", "Typescript"],
+];
+
+function getPairedSlot(slots: MateriaSlot[], index: number) {
+  return index % 2 === 0 ? slots[index + 1] : slots[index - 1];
+}
 
 const materiaIconMap: Record<string, string> = {
   green: "/materia-green.png",
@@ -71,22 +187,22 @@ const materiaIconMap: Record<string, string> = {
 // ───── Initial Equipment ─────
 const initialEquipment: { weapon: MateriaSlot[]; armor: MateriaSlot[] } = {
   weapon: [
-    { skill: skillList.find(s => s.title === "Firebase"), linked: true },
-    { skill: skillList.find(s => s.title === "Javascript") },
+    { skill: skillList.find((s) => s.title === "Firebase"), linked: true },
+    { skill: skillList.find((s) => s.title === "Javascript") },
     { linked: true },
-    { skill: skillList.find(s => s.title === "React") },
+    { skill: skillList.find((s) => s.title === "React") },
     { linked: true },
     {},
-    { skill: skillList.find(s => s.title === "Jira"), linked: true },
-    { skill: skillList.find(s => s.title === "Python") },
+    { skill: skillList.find((s) => s.title === "Jira"), linked: true },
+    { skill: skillList.find((s) => s.title === "Python") },
   ],
   armor: [
     { linked: true },
-    { skill: skillList.find(s => s.title === "Node.js") },
+    { skill: skillList.find((s) => s.title === "Node.js") },
     { linked: true },
     {},
     { linked: true },
-    { skill: skillList.find(s => s.title === "PostgreSQL") },
+    { skill: skillList.find((s) => s.title === "PostgreSQL") },
     { linked: true },
     {},
   ],
@@ -99,7 +215,11 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [equipment, setEquipment] = useState(initialEquipment);
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null); // for the skill list
+  const [hoveredSlot, setHoveredSlot] = useState<{
+    row: "weapon" | "armor";
+    index: number;
+  } | null>(null);
 
   const materiaAudio = useMemo(() => {
     const audio = new Audio("/audio/materia.mp3");
@@ -118,20 +238,58 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
     <div className="relative flex items-center" style={{ gap: `${GAP}px` }}>
       {slots.map((slot, i) => {
         let highlightClass = "";
+
+        const pairedSlot = getPairedSlot(slots, i);
+
+        const isGoodPair =
+          slot.skill &&
+          pairedSlot?.skill &&
+          goodPairs.some(
+            ([a, b]) =>
+              (a === slot.skill!.title && b === pairedSlot.skill!.title) ||
+              (b === slot.skill!.title && a === pairedSlot.skill!.title)
+          );
+
+        if (isGoodPair)
+          highlightClass = "ring-2 ring-cyan-400"; // glow for pair
+        else if (selectedSkill) {
+          if (!slot.skill) highlightClass = "ring-1 ring-yellow-400";
+          else if (slot.skill.title === selectedSkill.title)
+            highlightClass = "ring-2 ring-yellow-400";
+        }
+
         if (selectedSkill) {
           if (!slot.skill) highlightClass = "ring-1 ring-cyan-400";
-          else if (slot.skill.title === selectedSkill.title) highlightClass = "ring-2 ring-yellow-400";
+          else if (slot.skill.title === selectedSkill.title)
+            highlightClass = "ring-2 ring-yellow-400";
         }
 
         return (
-          <div key={i} className="relative flex items-center"
-            onMouseEnter={() => !muted ? playHover() : null}>
+          <div
+            key={i}
+            className="relative flex items-center"
+            onMouseEnter={() => {
+              !muted && playHover();
+              setHoveredSlot({ row, index: i });
+            }}
+            onMouseLeave={() => setHoveredSlot(null)}
+          >
+            {/* Cursor */}
+            {hoveredSlot?.row === row && hoveredSlot?.index === i && (
+              <Image
+                src="/cursor.png"
+                alt="FF7 Cursor"
+                width={20}
+                height={20}
+                className="absolute -left-5 top-1/2 -translate-y-1/2 z-10"
+              />
+            )}
             <MateriaSocket
               materia={slot.skill?.materia}
               className={highlightClass}
               tooltip={slot.skill?.title}
               onClick={() => {
-                setEquipment(prev => {
+                setEquipment((prev) => {
                   const updated = { ...prev };
                   const currentSkill = slot.skill;
 
@@ -148,13 +306,18 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
                     return updated;
                   }
 
-                  (["weapon", "armor"] as const).forEach(r => {
-                    updated[r] = updated[r].map(s =>
-                      s.skill?.title === selectedSkill.title ? { ...s, skill: undefined } : s
+                  (["weapon", "armor"] as const).forEach((r) => {
+                    updated[r] = updated[r].map((s) =>
+                      s.skill?.title === selectedSkill.title
+                        ? { ...s, skill: undefined }
+                        : s
                     );
                   });
 
-                  updated[row][i] = { ...updated[row][i], skill: selectedSkill };
+                  updated[row][i] = {
+                    ...updated[row][i],
+                    skill: selectedSkill,
+                  };
                   materiaAudio.play();
                   setSelectedSkill(null);
                   return updated;
@@ -164,7 +327,11 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
             {slot.linked && i < slots.length - 1 && (
               <div
                 className="absolute top-1/2 h-[2px] bg-cyan-300 rounded"
-                style={{ left: "100%", width: `${GAP}px`, transform: "translateY(-50%)" }}
+                style={{
+                  left: "100%",
+                  width: `${GAP}px`,
+                  transform: "translateY(-50%)",
+                }}
               />
             )}
           </div>
@@ -179,7 +346,11 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
       <FF7Panel className="h-[110px] p-2 flex gap-2">
         {/* Character Panel */}
         <div className="flex gap-2">
-          <img src={myCharacter.avatar} alt={myCharacter.name} className="w-20 h-20 border border-ff7-border" />
+          <img
+            src={myCharacter.avatar}
+            alt={myCharacter.name}
+            className="w-20 h-20 border border-ff7-border"
+          />
           <div className="leading-tight space-y-0.5">
             <div className="text-ff7-accent font-bold">{myCharacter.name}</div>
             <div>LV {myCharacter.level}</div>
@@ -205,34 +376,44 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
             {renderMateriaRow(equipment.armor, "armor")}
           </div>
         </div>
-
       </FF7Panel>
 
       {/* Description */}
       <FF7Panel className="h-[55px] p-2">
         <p className="text-xs text-blue-200">
-          {selectedSkill ? selectedSkill.description : "Select a skill to see its description."}
+          {selectedSkill
+            ? selectedSkill.description
+            : "Select a skill to see its description."}
         </p>
       </FF7Panel>
 
       {/* Bottom Panel: Selected Skill & Skill List */}
       <div className="flex h-[200px] gap-2">
         <FF7Panel className="w-[180px] p-2 flex flex-col items-center justify-center">
-          <div className="text-sm font-bold text-yellow-200">{selectedSkill?.title || "Select a Skill"}</div>
-          {selectedSkill && <StarRating value={selectedSkill.stars} max={5} size={14} />}
+          <div className="text-sm font-bold text-yellow-200">
+            {selectedSkill?.title || "Select a Skill"}
+          </div>
+          <div className="text-xs font-bold text-yellow-200 text-center">
+            {selectedSkill?.title || "Try linking certain skills together!"}
+          </div>
+          {selectedSkill && (
+            <StarRating value={selectedSkill.stars} max={5} size={14} />
+          )}
         </FF7Panel>
         <FF7Panel className="flex-1 p-2">
           <ul className="relative h-full overflow-y-auto space-y-1 text-xs text-white">
-            {skillList.map(skill => {
+            {skillList.map((skill) => {
               const isHovered = hoveredSkill === skill.title;
+              const isSelected = selectedSkill?.title === skill.title;
+
               return (
                 <li
                   key={skill.title}
-                  className={`cursor-pointer relative flex items-center gap-2 px-1 py-[2px] pl-8 ${
-                    selectedSkill?.title === skill.title ? "bg-ff7-accent text-black" : ""
+                  className={`relative flex items-center gap-2 px-1 py-[2px] pl-8 cursor-pointer ${
+                    isSelected ? "bg-ff7-accent text-black" : ""
                   }`}
                   onMouseEnter={() => {
-                    setHoveredSkill(skill.title);
+                    setHoveredSkill(skill.title); // <- keep this separate from hoveredSlot
                     if (!muted) playHover();
                   }}
                   onMouseLeave={() => setHoveredSkill(null)}

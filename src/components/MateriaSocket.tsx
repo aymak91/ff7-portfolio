@@ -31,11 +31,13 @@ export default function MateriaSocket({
 
       {/* Tooltip */}
       {tooltip && (
-        <span className="absolute bottom-full mb-1 left-1/2 transform -translate-x-1/2
+        <span
+          className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2
           w-max min-w-[40px] rounded bg-[#1e3a5c] px-2 py-1 text-xs text-white text-center
           opacity-0 scale-90 transition-all duration-150
-          pointer-events-none group-hover:opacity-100 group-hover:scale-100">
-        {tooltip}
+          pointer-events-none group-hover:opacity-100 group-hover:scale-100"
+        >
+          {tooltip}
         </span>
       )}
     </div>
