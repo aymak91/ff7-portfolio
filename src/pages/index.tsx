@@ -29,6 +29,17 @@ export default function Home() {
   const [muted, setMuted] = useState(false);
   const [showRotatePrompt, setShowRotatePrompt] = useState(false);
 
+  // Easter egg: Omnislash overlay
+  const [showOmnislash, setShowOmnislash] = useState(false);
+
+  const triggerOmnislash = () => {
+    setShowOmnislash(true);
+    const limitAudio = new Audio("/audio/limit.mp3");
+    limitAudio.muted = muted;
+    limitAudio.play();
+    setTimeout(() => setShowOmnislash(false), 10000);
+  };
+
   // ───── Orientation Check ─────
   useEffect(() => {
     const checkOrientation = () => {
@@ -180,7 +191,8 @@ export default function Home() {
                     <p>
                       I built this site with a layout inspired by the menus from
                       the classic game Final Fantasy VII so that you can get to
-                      know me in a more interactive and fun way. I hope you
+                      know me in a more interactive and fun way. There are a few
+                      easter eggs, so I encourage you poke around. I hope you
                       enjoy it!
                     </p>
                     <p>- Alex</p>
@@ -204,17 +216,40 @@ export default function Home() {
               </SlideIn>
             )}
 
+            {/* Omnislash GIF overlay */}
+            {showOmnislash && (
+              <>
+                {/* Pink FF7-style top panel */}
+                <div className="absolute top-0 left-0 w-full text-center z-60 pointer-events-none">
+                  <div className="inline-block px-4 py-1 bg-[#91175f] opacity-50 border-2 border-ff7-border text-white font-bold text-lg animate-slide-down rounded w-xl">
+                    Omnislash
+                  </div>
+                </div>
+
+                {/* GIF */}
+                <div className="absolute inset-0 z-50 pointer-events-none">
+                  <img
+                    src={`/cloud_omnislash.gif?${Date.now()}`}
+                    alt="Omnislash"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </>
+            )}
+
             {/* ───── Home ───── */}
             {mode === "home" && (
               <>
+                {/* Character Panel */}
                 <SlideIn from="right">
                   <div className="absolute left-10 top-10 w-[600px] h-[340px]">
                     <FF7Panel>
-                      <CharacterPanel />
+                      <CharacterPanel onOmnislash={triggerOmnislash} />
                     </FF7Panel>
                   </div>
                 </SlideIn>
 
+                {/* About Me Panel */}
                 <SlideIn from="right">
                   <div className="absolute left-20 top-60 w-[450px] h-[130px]">
                     <FF7Panel>
@@ -223,6 +258,7 @@ export default function Home() {
                   </div>
                 </SlideIn>
 
+                {/* Other Panels */}
                 <SlideIn from="left">
                   <div className="absolute left-137 top-[265px] w-[150px]">
                     <FF7Panel>

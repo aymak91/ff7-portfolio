@@ -1,11 +1,13 @@
+import { useState } from "react";
+
 const characters = [
   {
     name: "Alexander Mak",
     level: 30,
     hp: "4578 / 4578",
     mp: "63 / 63",
-    limit: 100, // %
-    exp: 45,   // %
+    limit: 100,
+    exp: 45,
     avatar: "/cloud.jpg",
   },
   {
@@ -24,22 +26,26 @@ function FF7Bar({
   value,
   color,
   flash = false,
+  onClick,
 }: {
   label: string;
   value: number;
   color: string;
   flash?: boolean;
+  onClick?: () => void;
 }) {
   return (
     <div className="flex items-center gap-1 text-[10px]">
       <span className="w-7 text-right">{label}</span>
 
-      <div className="w-24 h-2 border-[2px] border-ff7-border bg-black overflow-hidden">
+      <div
+        className="w-24 h-2 border-[2px] border-ff7-border bg-black overflow-hidden cursor-pointer"
+        onClick={onClick}
+      >
         <div
-          className={`
-            h-full
-            ${flash ? "animate-[ff7-limit-flash_1s_steps(2)_infinite]" : ""}
-          `}
+          className={`h-full ${
+            flash ? "animate-[ff7-limit-flash_1s_steps(2)_infinite]" : ""
+          }`}
           style={{
             width: `${value}%`,
             backgroundColor: flash ? undefined : color,
@@ -49,10 +55,11 @@ function FF7Bar({
     </div>
   );
 }
-
-
-
-export default function CharacterPanel() {
+export default function CharacterPanel({
+  onOmnislash,
+}: {
+  onOmnislash?: () => void;
+}) {
   return (
     <div className="space-y-3 text-sm">
       {characters.map((c) => (
@@ -82,8 +89,8 @@ export default function CharacterPanel() {
                 value={c.limit}
                 color="#dfb3be"
                 flash={c.limit >= 100}
-                />
-
+                onClick={onOmnislash} // trigger GIF here
+              />
             </div>
           </div>
         </div>
@@ -91,4 +98,3 @@ export default function CharacterPanel() {
     </div>
   );
 }
-
