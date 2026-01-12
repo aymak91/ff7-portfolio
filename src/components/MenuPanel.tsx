@@ -2,6 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useHoverSound } from "@/hooks/useHoverSound";
 import FF7Panel from "./FF7Panel";
+import { useClickSound } from "@/hooks/useClickSound";
 
 export type MenuMode =
   | "home"
@@ -40,6 +41,7 @@ export default function MenuPanel({ onSelect, activeMode, muted }: Props) {
 
   // Pass muted state to useHoverSound
   const playHover = useHoverSound("/audio/menu_blip.mp3", { muted });
+  const playChocobo = useClickSound("/audio/chocobo_wark.mp3", { muted });
 
   const isCollapsed = activeMode !== "home";
 
@@ -103,10 +105,15 @@ export default function MenuPanel({ onSelect, activeMode, muted }: Props) {
         )}
 
         {isCollapsed && activeMode === "welcome" && (
-          <div className="relative">
-            <div className="relative flex items-center text-xs h-[20px]">
-              <span className="font-bold">Welcome!</span>
-            </div>
+          <div className="flex justify-center mt-2">
+            <Image
+              src="/chocobo.gif"
+              alt="chocobo"
+              width={30}
+              height={30}
+              className="animate-bounce cursor-pointer"
+              onClick={playChocobo}
+            />
           </div>
         )}
       </div>
