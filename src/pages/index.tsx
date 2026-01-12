@@ -57,6 +57,10 @@ export default function Home() {
     playClick();
     setMode("home");
   };
+  const handleStartMuted = () => {
+    setMuted(true);
+    setMode("home");
+  };
 
   const handleBack = () => {
     playBack();
@@ -181,13 +185,20 @@ export default function Home() {
                     </p>
                     <p>- Alex</p>
 
-                    <button
-                      className="px-6 py-2 text-sm font-bold bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded-lg"
-                      onMouseEnter={playHover}
-                      onClick={handleStart}
-                    >
-                      START
-                    </button>
+                    <div className="flex justify-center gap-2">
+                      <button
+                        className="flex-1 cursor-pointer py-2 text-sm font-bold bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded-lg shadow-md hover:from-ff7-blue hover:to-ff7-panel transition-all duration-200"
+                        onClick={handleStart}
+                      >
+                        START
+                      </button>
+                      <button
+                        className="flex-1 cursor-pointer py-2 text-sm font-bold bg-gradient-to-b from-ff7-panel to-ff7-blue border border-ff7-border rounded-lg shadow-md hover:from-ff7-blue hover:to-ff7-panel transition-all duration-200"
+                        onClick={handleStartMuted}
+                      >
+                        START w/o SFX
+                      </button>
+                    </div>
                   </FF7Panel>
                 </div>
               </SlideIn>
