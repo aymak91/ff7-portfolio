@@ -34,6 +34,7 @@ const goodPairs: [string, string][] = [
   ["React", "Redux"],
   ["Node.js", "Javascript"],
   ["Node.js", "Typescript"],
+  ["Next.js", "React"],
 ];
 
 function getPairedSlot(slots: MateriaSlot[], index: number) {
