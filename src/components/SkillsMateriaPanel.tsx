@@ -262,8 +262,9 @@ export default function SkillsMateriaPanel({ muted }: { muted: boolean }) {
             {selectedSkill?.title || "Select a Skill"}
           </div>
           <div className="text-xs font-bold text-yellow-200 text-center">
-            {selectedSkill?.title ||
-              "Try linking blue skills with certain other skills!"}
+            {selectedSkill?.title
+              ? ""
+              : "Try linking blue skills with certain other skills!"}
           </div>
           {selectedSkill && (
             <StarRating value={selectedSkill.stars} max={5} size={14} />
