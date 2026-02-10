@@ -1,6 +1,7 @@
 // pages/index.tsx
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import FF7Panel from "@/components/FF7Panel";
 import CharacterPanel from "@/components/CharacterPanel";
@@ -12,6 +13,7 @@ import AboutMePanel from "@/components/AboutMePanel";
 import SlideIn from "@/components/SlideIn";
 import SkillsMateriaPanel from "@/components/SkillsMateriaPanel";
 import WorkHistoryPanel from "@/components/WorkHistoryPanel";
+import ProjectsPanel from "@/components/ProjectsPanel";
 import Footer from "@/components/Footer";
 
 import { useHoverSound } from "@/hooks/useHoverSound";
@@ -23,11 +25,21 @@ const DESIGN_WIDTH = 720;
 const DESIGN_HEIGHT = 420;
 
 export default function Home() {
+  const router = useRouter();
   // ───── State ─────
   const [scale, setScale] = useState(1);
   const [mode, setMode] = useState<MenuMode>("welcome");
   const [muted, setMuted] = useState(false);
   const [showRotatePrompt, setShowRotatePrompt] = useState(false);
+
+  // Sync mode from URL when arriving via /projects -> /?mode=projects
+  useEffect(() => {
+    if (!router.isReady) return;
+    const q = router.query.mode;
+    if (q === "projects" || q === "experience" || q === "skills") {
+      setMode(q);
+    }
+  }, [router.isReady, router.query.mode]);
 
   // Easter egg: Omnislash overlay
   const [showOmnislash, setShowOmnislash] = useState(false);
@@ -297,7 +309,7 @@ export default function Home() {
             {mode === "projects" && (
               <SlideIn from="bottom">
                 <div className="absolute left-10 top-10 w-[600px] h-[340px]">
-                  <FF7Panel>This page is a work in progress</FF7Panel>
+                  <ProjectsPanel />
                 </div>
               </SlideIn>
             )}
