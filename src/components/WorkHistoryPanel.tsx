@@ -6,8 +6,8 @@ const workHistory = [
   {
     company: "Letter AI",
     logo: "/logos/letter_ai_logo.jpeg",
-    role: "Founding Product Manager",
-    years: "2026–present",
+    role: "Product Manager",
+    years: "2026–2026",
     level: 33,
   },
   {
@@ -57,10 +57,9 @@ export default function WorkHistoryPanel() {
       <div
         className="
           flex flex-col gap-3
-          h-[30vh]
+          h-65
           overflow-y-auto
-          pr-1
-        "
+          pr-1"
       >
         {workHistory.map(job => (
           <WorkHistoryRow key={job.company} {...job} />

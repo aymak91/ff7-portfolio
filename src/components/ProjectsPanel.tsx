@@ -72,18 +72,18 @@ export default function ProjectsPanel() {
           <CharacterBlock
             name="Alexander Mak"
             portrait="/cloud.jpg"
-            level={99}
+            level={34}
             status="Ready"
-            hp="9999/9999"
-            mp="999/999"
+            hp="4578/4578"
+            mp="63/63"
           />
           <CharacterBlock
             name="Lotus"
             portrait="/barret.jpg"
-            level={99}
+            level={6}
             status="Good boy"
-            hp="9999/9999"
-            mp="999/999"
+            hp="341/341"
+            mp="48/48"
           />
         </FF7Panel>
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 const characters = [
   {
     name: "Alexander Mak",
-    level: 30,
+    level: 34,
     hp: "4578 / 4578",
     mp: "63 / 63",
     limit: 100,
