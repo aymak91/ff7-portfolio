@@ -1,6 +1,12 @@
-export default function Projects() {
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-    return (
-        <div></div>
-    )
+export default function Projects() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/?mode=projects");
+  }, [router]);
+
+  return null;
 }

@@ -136,6 +136,12 @@ const skillList: Skill[] = [
     description: "Project management and issue tracking.",
   },
   {
+    title: "Linear",
+    materia: "purple",
+    stars: 5,
+    description: "Project management and issue tracking.",
+  },
+  {
     title: "Linux",
     materia: "purple",
     stars: 4,
