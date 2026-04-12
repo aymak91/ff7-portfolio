@@ -13,6 +13,7 @@ import SlideIn from "@/components/SlideIn";
 import SkillsMateriaPanel from "@/components/SkillsMateriaPanel";
 import WorkHistoryPanel from "@/components/WorkHistoryPanel";
 import Footer from "@/components/Footer";
+import LoadingScreen from "@/components/LoadingScreen";
 
 import { useHoverSound } from "@/hooks/useHoverSound";
 import { useClickSound } from "@/hooks/useClickSound";
@@ -24,11 +25,20 @@ const DESIGN_HEIGHT = 420;
 
 export default function Home() {
   // ───── State ─────
+  const [isLoading, setIsLoading] = useState(true);
   const [scale, setScale] = useState(1);
   const [mode, setMode] = useState<MenuMode>("welcome");
   const [muted, setMuted] = useState(false);
   const [showRotatePrompt, setShowRotatePrompt] = useState(false);
 
+  // Loading Effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1800); // tweak timing
+
+    return () => clearTimeout(timer);
+  }, []);
   // Easter egg: Omnislash overlay
   const [showOmnislash, setShowOmnislash] = useState(false);
 
@@ -95,6 +105,10 @@ export default function Home() {
     return () => window.removeEventListener("resize", updateScale);
   }, []);
 
+  // Loading Screen
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
   // ───── Portrait Block Screen ─────
   if (showRotatePrompt) {
     return (
